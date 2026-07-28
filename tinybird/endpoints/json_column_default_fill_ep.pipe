@@ -1,0 +1,9 @@
+NODE json_column_default_fill_node
+SQL >
+    %
+    SELECT
+        row_id,
+        toString(params_json) AS params_json
+    FROM json_column_default_fill
+    ORDER BY row_id
+TYPE endpoint

@@ -1,0 +1,13 @@
+DESCRIPTION >
+    Regression scenario for the tb ingest parser change reported in Slack
+    (tb ~4.6.14): a Map column fails to append when the source JSON object
+    has the same set of keys on every row, because ClickHouse's native JSON
+    schema inference prefers a Named Tuple over a Map in that case, and
+    CAST(Tuple, Map) only works for 2-element tuples.
+
+SCHEMA >
+    `asset_id` String `json:$.asset_id`,
+    `properties` Map(String, Nullable(String)) `json:$.properties`
+
+ENGINE "MergeTree"
+ENGINE_SORTING_KEY "asset_id"

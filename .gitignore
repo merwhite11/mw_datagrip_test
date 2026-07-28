@@ -1,0 +1,4 @@
+.tinyb
+.env
+.env.local
+*.log

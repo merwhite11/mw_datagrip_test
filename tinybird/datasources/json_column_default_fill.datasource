@@ -1,0 +1,14 @@
+DESCRIPTION >
+    Regression scenario for the "unspecified JSON key becomes an empty-string
+    default instead of staying absent" symptom reported by CollegeVine
+    (workspace agent_reporting) on tb 4.6.14: a row whose JSON column never
+    supplied a given key started rendering that key back with a "" default
+    once another row in the same column supplied it, changing toString()
+    output and any equality/blank-filter assertion against it.
+
+SCHEMA >
+    `row_id` String `json:$.row_id`,
+    `params_json` JSON `json:$.params_json`
+
+ENGINE "MergeTree"
+ENGINE_SORTING_KEY "row_id"

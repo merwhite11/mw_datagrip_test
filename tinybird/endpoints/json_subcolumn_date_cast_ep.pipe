@@ -1,0 +1,11 @@
+NODE json_subcolumn_date_cast_node
+SQL >
+    %
+    SELECT
+        row_id,
+        toDate(payload.event_date) AS event_date,
+        payload.amount AS amount
+    FROM json_subcolumn_date_cast
+    WHERE toDate(payload.event_date) = {{Date(target_date, '2024-01-02')}}
+    ORDER BY row_id
+TYPE endpoint

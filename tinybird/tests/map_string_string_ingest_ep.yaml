@@ -1,0 +1,9 @@
+
+- name: map_string_string_survives_fixture_append
+  description: |
+    Boundary check for the ingest fix (MR !25230): Map(String, String) with a consistent-keys JSON object is the exact case that was special-cased and should append successfully, unlike the Map(String, Nullable(String)) case in map_inference_regression.
+  parameters: ''
+  expected_result: |
+    {"asset_id":"asset-1","property_id":"91c07f19-6005-44b0-ac93-39c72ce55d5a","property_region":"us-east"}
+    {"asset_id":"asset-2","property_id":"3e8f6a2b-1234-4a11-9c2d-0a1b2c3d4e5f","property_region":"eu-west"}
+    {"asset_id":"asset-3","property_id":"7c9d5e1a-9988-4b22-8e77-1122334455aa","property_region":"ap-south"}

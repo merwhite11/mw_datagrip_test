@@ -1,0 +1,7 @@
+SCHEMA >
+    `day` Date,
+    `banner_id` String,
+    `unique_users` AggregateFunction(uniqExactIf, String, UInt8)
+
+ENGINE "AggregatingMergeTree"
+ENGINE_SORTING_KEY "day, banner_id"

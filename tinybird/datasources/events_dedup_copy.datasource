@@ -1,0 +1,12 @@
+DESCRIPTION >
+    Snapshot of events_dedup produced on-demand by the events_dedup_copy copy pipe.
+
+SCHEMA >
+    `day` Date `json:$.day`,
+    `banner_id` String `json:$.banner_id`,
+    `user_id` String `json:$.user_id`,
+    `clicked` UInt8 `json:$.clicked`,
+    `updated_at` DateTime `json:$.updated_at`
+
+ENGINE "MergeTree"
+ENGINE_SORTING_KEY "day, banner_id, user_id"

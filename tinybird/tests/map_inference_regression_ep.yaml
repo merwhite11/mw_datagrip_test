@@ -1,0 +1,9 @@
+
+- name: map_column_survives_fixture_append
+  description: |
+    Guards against the tb ingest regression where a Map column fails to append (CAST AS Map from tuple requires 2 elements) when every row's JSON object has the same keys, because ClickHouse infers a Named Tuple instead of a Map. If `tb test run` fails at the "Building test environment" / fixture-append step for map_inference_regression rather than at an assertion, the ingest parser has regressed again.
+  parameters: ''
+  expected_result: |
+    {"asset_id":"asset-1","property_id":"91c07f19-6005-44b0-ac93-39c72ce55d5a","property_region":"us-east"}
+    {"asset_id":"asset-2","property_id":"3e8f6a2b-1234-4a11-9c2d-0a1b2c3d4e5f","property_region":"eu-west"}
+    {"asset_id":"asset-3","property_id":"7c9d5e1a-9988-4b22-8e77-1122334455aa","property_region":"ap-south"}

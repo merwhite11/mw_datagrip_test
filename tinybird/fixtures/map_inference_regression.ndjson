@@ -1,0 +1,3 @@
+{"asset_id": "asset-1", "properties": {"id": "91c07f19-6005-44b0-ac93-39c72ce55d5a", "value": "tsyl_na", "region": "us-east"}}
+{"asset_id": "asset-2", "properties": {"id": "3e8f6a2b-1234-4a11-9c2d-0a1b2c3d4e5f", "value": "tsyl_eu", "region": "eu-west"}}
+{"asset_id": "asset-3", "properties": {"id": "7c9d5e1a-9988-4b22-8e77-1122334455aa", "value": "tsyl_ap", "region": "ap-south"}}

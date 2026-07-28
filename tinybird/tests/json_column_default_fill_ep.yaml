@@ -1,0 +1,8 @@
+
+- name: row_with_no_keys_stays_empty
+  description: |
+    Guards against the CollegeVine-reported symptom where a row that never supplied a JSON key ("params_json": {}) starts rendering that key back with an empty-string default (e.g. {"chosen_topic":"","content":""}) once another row in the same column supplies it, once ClickHouse's native JSON type unifies discovered paths across the column. If r1's params_json stops being an empty object, JSON default-fill behavior has changed again.
+  parameters: ''
+  expected_result: |
+    {"row_id":"r1","params_json":"{}"}
+    {"row_id":"r2","params_json":"{\"chosen_topic\":\"greeting\",\"content\":\"hello\"}"}

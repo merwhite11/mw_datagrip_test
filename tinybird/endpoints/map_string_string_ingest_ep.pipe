@@ -1,0 +1,10 @@
+NODE map_string_string_ingest_node
+SQL >
+    %
+    SELECT
+        asset_id,
+        properties['id'] AS property_id,
+        properties['region'] AS property_region
+    FROM map_string_string_ingest
+    ORDER BY asset_id
+TYPE endpoint

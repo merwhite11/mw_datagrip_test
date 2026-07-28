@@ -1,0 +1,18 @@
+DESCRIPTION >
+    Regression scenario for the reported tb 4.1.14 breaking change: a date
+    stored inside a native JSON column subcolumn, cast with toDate() and
+    compared against a date query parameter. Note: PyPI has no 4.1.13/4.1.14
+    tinybird release, so this is a synthetic reproduction of the reported
+    failure pattern (JSON subcolumn dynamic typing vs. a Date() templated
+    parameter), not a confirmed repro of that exact historical bug. JSON_TYPE
+    is force-enabled inside the tinybird-local Docker image regardless of the
+    workspace flag, and the bundled ClickHouse version in that image has
+    changed several times; if this ever regresses again, bisect by pinning
+    tinybird-local Docker image tags rather than tb CLI pip versions.
+
+SCHEMA >
+    `row_id` String `json:$.row_id`,
+    `payload` JSON `json:$.payload`
+
+ENGINE "MergeTree"
+ENGINE_SORTING_KEY "row_id"

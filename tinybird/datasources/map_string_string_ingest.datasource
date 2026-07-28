@@ -1,0 +1,14 @@
+DESCRIPTION >
+    Contrast case for map_inference_regression: same named-tuple-shaped JSON
+    object, but the target Map is Map(String, String) (no Nullable). The
+    ingest fix that shipped for the reported bug special-cased exactly this
+    type, so this fixture is expected to append successfully. If it starts
+    failing too, the fix regressed. If map_inference_regression (which uses
+    Map(String, Nullable(String))) starts passing, the fix was broadened.
+
+SCHEMA >
+    `asset_id` String `json:$.asset_id`,
+    `properties` Map(String, String) `json:$.properties`
+
+ENGINE "MergeTree"
+ENGINE_SORTING_KEY "asset_id"

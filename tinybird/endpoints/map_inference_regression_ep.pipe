@@ -1,0 +1,10 @@
+NODE map_inference_regression_node
+SQL >
+    %
+    SELECT
+        asset_id,
+        properties['id'] AS property_id,
+        properties['region'] AS property_region
+    FROM map_inference_regression
+    ORDER BY asset_id
+TYPE endpoint

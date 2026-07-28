@@ -1,0 +1,25 @@
+DESCRIPTION >
+    Banner events deduplicated by (day, banner_id, user_id), keeping the row with
+    the latest updated_at. Partitioned by month; because the partition key is a
+    function of `day` (the first sorting-key column), duplicate keys can never span
+    partitions. That invariant is the prerequisite for
+    do_not_merge_across_partitions_select_final, which lets SELECT ... FINAL resolve
+    duplicates within each partition independently instead of merging across all of
+    them.
+
+    NOTE: that setting is on Tinybird's restricted list and is rejected in both
+    ENGINE_SETTINGS and query-level SETTINGS by default. It must be allowlisted at
+    the cluster/infra level before it can be applied — the table below is designed
+    so it is safe to enable once that's done.
+
+SCHEMA >
+    `day` Date `json:$.day`,
+    `banner_id` String `json:$.banner_id`,
+    `user_id` String `json:$.user_id`,
+    `clicked` UInt8 `json:$.clicked`,
+    `updated_at` DateTime `json:$.updated_at`
+
+ENGINE "ReplacingMergeTree"
+ENGINE_VER "updated_at"
+ENGINE_PARTITION_KEY "toYYYYMM(day)"
+ENGINE_SORTING_KEY "day, banner_id, user_id"

@@ -1,0 +1,11 @@
+NODE mv
+SQL >
+    SELECT
+        day,
+        banner_id,
+        uniqExactIfState(user_id, clicked = 1) AS unique_users
+    FROM events
+    GROUP BY day, banner_id
+
+TYPE materialized
+DATASOURCE mv_banner_daily_rollup

@@ -1,0 +1,67 @@
+name: Tinybird CI
+on:
+  pull_request:
+    paths:
+      - "tinybird/**"
+
+env:
+  TINYBIRD_HOST: https://api.us-west-2.aws.tinybird.co
+  TINYBIRD_TOKEN: ${{ secrets.TB_ADMIN_TOKEN }}
+  # Pin the tb CLI explicitly. Installing via `curl https://tinybird.co | sh`
+  # always fetches latest, which is exactly how a stricter NDJSON parser
+  # (tb 4.6.14) silently broke tb test run mid-pipeline with no diff to
+  # review. Bump this on purpose, in its own PR, when ready.
+  TB_VERSION: "4.6.13"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      tinybird:
+        image: tinybirdco/tinybird-local:latest
+        ports:
+          - 7181:7181
+          - 7182:7182
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned tb CLI
+        run: |
+          pip install --quiet uv
+          uv tool install "tinybird==${TB_VERSION}" --python 3.11 --force
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Build project
+        run: tb --local build
+        working-directory: tinybird
+      - name: Test project
+        run: tb --local test run
+        working-directory: tinybird
+      - name: Deployment check
+        run: tb --cloud --host "$TINYBIRD_HOST" --token "$TINYBIRD_TOKEN" deploy --check
+        working-directory: tinybird
+
+  # Non-blocking canary: runs the same suite against whatever tb ships as
+  # "latest" today. Its job is to surface the next 4.6.14-style breaking
+  # change as a visible warning instead of a silent CI break discovered by
+  # a human an hour later. Promote TB_VERSION above once this is green on
+  # the version you want to adopt.
+  latest_canary:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    services:
+      tinybird:
+        image: tinybirdco/tinybird-local:latest
+        ports:
+          - 7181:7181
+          - 7182:7182
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install latest tb CLI
+        run: |
+          curl https://tinybird.co | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Build project
+        run: tb --local build
+        working-directory: tinybird
+      - name: Test project
+        run: tb --local test run
+        working-directory: tinybird

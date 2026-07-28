@@ -1,0 +1,12 @@
+DESCRIPTION >
+    On-demand copy of the deduplicated events into events_dedup_copy. No
+    COPY_SCHEDULE, so it only runs when triggered manually (tb CLI or API).
+
+NODE dedup_snapshot
+SQL >
+    SELECT *
+    FROM events_dedup FINAL
+
+TYPE COPY
+TARGET_DATASOURCE events_dedup_copy
+COPY_MODE replace

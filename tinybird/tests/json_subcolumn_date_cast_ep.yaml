@@ -1,0 +1,14 @@
+
+- name: default_date_matches_two_rows
+  description: |
+    Guards against a JSON-subcolumn-to-Date regression: toDate(payload.event_date) compared against a {{Date(...)}} query parameter should return exactly the rows for that day. If this starts returning 0 rows or errors on type mismatch, JSON subcolumn type inference or Date() parameter rendering has changed.
+  parameters: ''
+  expected_result: |
+    {"row_id":"r2","event_date":"2024-01-02","amount":20}
+    {"row_id":"r3","event_date":"2024-01-02","amount":30}
+
+- name: explicit_date_param_matches_one_row
+  description: Same comparison, explicit target_date overriding the default.
+  parameters: target_date=2024-01-01
+  expected_result: |
+    {"row_id":"r1","event_date":"2024-01-01","amount":10}

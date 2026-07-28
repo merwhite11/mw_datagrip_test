@@ -1,0 +1,7 @@
+NODE dedup_read
+SQL >
+    %
+ SELECT *
+    FROM events_dedup FINAL
+    WHERE day BETWEEN {{Date(date_from)}} AND {{Date(date_to)}}
+SETTINGS do_not_merge_across_partitions_select_final = 1

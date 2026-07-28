@@ -1,0 +1,25 @@
+name: Tinybird CD
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tinybird/**"
+
+env:
+  TINYBIRD_HOST: https://api.us-west-2.aws.tinybird.co
+  TINYBIRD_TOKEN: ${{ secrets.TB_ADMIN_TOKEN }}
+  TB_VERSION: "4.6.13"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned tb CLI
+        run: |
+          pip install --quiet uv
+          uv tool install "tinybird==${TB_VERSION}" --python 3.11 --force
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Deploy
+        run: tb --cloud --host "$TINYBIRD_HOST" --token "$TINYBIRD_TOKEN" deploy --wait
+        working-directory: tinybird
