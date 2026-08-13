@@ -7,7 +7,7 @@ on:
 
 env:
   TINYBIRD_HOST: https://api.us-west-2.aws.tinybird.co
-  TINYBIRD_TOKEN: ${{ secrets.TB_ADMIN_TOKEN }}
+  TINYBIRD_TOKEN: ${{ secrets.TB_TOKEN }}
   TB_VERSION: "4.6.13"
 
 jobs:
