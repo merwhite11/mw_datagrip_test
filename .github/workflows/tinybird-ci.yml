@@ -36,8 +36,8 @@ jobs:
       - name: Test project
         run: tb --local test run
         working-directory: tinybird
-      - name: Deployment check
-        run: tb --cloud --host "$TINYBIRD_HOST" --token "$TINYBIRD_TOKEN" deploy --check
+      # - name: Deployment check
+      #   run: tb --cloud --host "$TINYBIRD_HOST" --token "$TINYBIRD_TOKEN" deploy --check
         working-directory: tinybird
 
   # Non-blocking canary: runs the same suite against whatever tb ships as

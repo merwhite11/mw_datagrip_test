@@ -1,7 +1,15 @@
+TOKEN explain-token READ
 NODE dedup_read
 SQL >
     %
  SELECT *
     FROM events_dedup FINAL
     WHERE day BETWEEN {{Date(date_from)}} AND {{Date(date_to)}}
+
+NODE dedup_read_0
+SQL >
+    %
+ SELECT *
+    FROM dedup_read
 SETTINGS do_not_merge_across_partitions_select_final = 1
+
