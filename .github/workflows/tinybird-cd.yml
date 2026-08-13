@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - "tinybird/**"
+  workflow_dispatch: {}
 
 env:
   TINYBIRD_HOST: https://api.us-west-2.aws.tinybird.co
