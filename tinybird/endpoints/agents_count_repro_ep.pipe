@@ -1,0 +1,7 @@
+NODE agents_count_repro_node
+SQL >
+    SELECT
+        countIf(toString(action_params_json.event_date) = '') AS blank_count,
+        countIf(toString(action_params_json.event_date) != '') AS present_count
+    FROM agents_count_repro
+TYPE endpoint

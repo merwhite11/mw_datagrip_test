@@ -1,0 +1,19 @@
+DESCRIPTION >
+    Best-effort reproduction of the CollegeVine "Count events with blank
+    filter on date-typed JSON field" failure (agents__count.yaml), built
+    from telemetry/description only — we never got the real agents__count
+    pipe SQL. Hypothesis: once every populated row shares the same type for
+    a JSON subcolumn path (a date string), ClickHouse resolves that
+    subcolumn to a concrete type instead of a per-row Dynamic value; a row
+    that never supplied the key at all then gets that type's zero-value
+    default (e.g. a zero date) instead of a true absence, breaking a
+    "blank"/"IS NULL"-style filter that used to match it. If wrong once
+    Matt's real query is available, replace this file.
+
+SCHEMA >
+    `row_id` String `json:$.row_id`,
+    `agent_instance_id` Nullable(UInt32) `json:$.agent_instance_id`,
+    `action_params_json` JSON `json:$.action_params_json`
+
+ENGINE "MergeTree"
+ENGINE_SORTING_KEY "row_id"
