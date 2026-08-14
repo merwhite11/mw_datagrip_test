@@ -7,7 +7,7 @@ on:
 
 env:
   TINYBIRD_HOST: https://api.us-west-2.aws.tinybird.co
-  TINYBIRD_TOKEN: ${{ secrets.TINYBIRD_TOKEN }}
+  # TINYBIRD_TOKEN: ${{ secrets.TINYBIRD_TOKEN }}
   # Pin the tb CLI explicitly. Installing via `curl https://tinybird.co | sh`
   # always fetches latest, which is exactly how a stricter NDJSON parser
   # (tb 4.6.14) silently broke tb test run mid-pipeline with no diff to
